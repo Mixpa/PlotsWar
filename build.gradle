@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+def apiVersion = '1.15.2-R0.1-SNAPSHOT'
+group 'com.github.mixpa'
+version 1.0
+sourceCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    implementation "org.spigotmc:spigot-api:$apiVersion"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+processResources {
+    inputs.property 'version', project.version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand 'version':project.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'plugin.yml'
+    }
+}
