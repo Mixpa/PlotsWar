@@ -2,4 +2,5 @@ name: PlotsWar
 version: ${version}
 main: com.github.mixpa.PlotsWar
 author: Mixpa
-api-version: 1.13
+api-version: '1.13'
+load: STARTUP
