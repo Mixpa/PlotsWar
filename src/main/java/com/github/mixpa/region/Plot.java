@@ -8,6 +8,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class Plot {
@@ -24,8 +25,8 @@ public class Plot {
             chance += entry.getValue();
             randomMap.put(entry.getKey(), chance);
         }
-        if (chance != 100){
-            randomMap.put(Material.AIR, 100-chance);
+        if (chance != 100) {
+            randomMap.put(Material.AIR, 100 - chance);
         }
     }
 
@@ -38,18 +39,21 @@ public class Plot {
     }
 
     public void resetChunk(Chunk chunk) {
-        resetMine(chunk);
+        resetPlot(chunk);
     }
-    public ChunkGenerator.ChunkData resetChunkDate(ChunkGenerator.ChunkData chunkData, ChunkGenerator.BiomeGrid biome){
+    public void resetChunk(ChunkGenerator.ChunkData chunk) {
+        resetPlot(chunk);
+    }
+
+    public static ChunkGenerator.ChunkData resetChunkDate(ChunkGenerator.ChunkData chunkData, ChunkGenerator.BiomeGrid biome) {
         //设置整个区块为平原
         Utils.setBiome(biome, Config.getPlotBiome());
         //基岩
         chunkData.setRegion(0, 0, 0, 16, 1, 16, Material.BEDROCK);
-        resetMine(chunkData);
         return chunkData;
     }
 
-    private <A> void resetMine(A chunkDef) {
+    private <A> void resetPlot(A chunkDef) {
         if (!(chunkDef instanceof Chunk || chunkDef instanceof ChunkGenerator.ChunkData))
             throw new IllegalArgumentException("转换类型必须是Chunk或者ChunkDate!");
         Random random = new Random();
@@ -70,5 +74,20 @@ public class Plot {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plot plot = (Plot) o;
+        return Objects.equals(name, plot.name) &&
+                Objects.equals(componentMap, plot.componentMap) &&
+                Objects.equals(randomMap, plot.randomMap);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, componentMap, randomMap);
     }
 }

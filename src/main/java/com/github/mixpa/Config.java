@@ -9,6 +9,7 @@ import java.util.Map;
 public class Config {
     private static int plotLength = 2;
     private static int roadLength = 1;
+    private static int addLength = plotLength + roadLength;
     private static int worldHeight = 70;
     private static Biome roadBiome = Biome.THE_VOID;
     private static Biome plotBiome = Biome.PLAINS;
@@ -17,6 +18,13 @@ public class Config {
     private static Material roadLowest = Material.BEDROCK;
     //道路最上层的地板
     private static Material roadFloor = Material.SMOOTH_STONE;
+    private static Material roadFrame = Material.SMOOTH_STONE_SLAB;
+    //生成世界的时候所有的非道路区块的成分比例
+    private static Map<Plot, Integer> plotComponent;
+
+    public static int getAddLength() {
+        return addLength;
+    }
 
     public static Material getRoadFrame() {
         return roadFrame;
@@ -25,10 +33,6 @@ public class Config {
     public static void setRoadFrame(Material roadFrame) {
         Config.roadFrame = roadFrame;
     }
-
-    private static Material roadFrame = Material.SMOOTH_STONE_SLAB;
-    //生成世界的时候所有的非道路区块的成分比例
-    private static Map<Plot, Integer> plotComponent;
 
     public static Biome getPlotBiome() {
         return plotBiome;
